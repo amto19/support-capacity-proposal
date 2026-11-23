@@ -58,7 +58,7 @@ Three reusable pieces, plus one interaction rule:
 
 ## Not built, or simulated
 
-- Not deployed: it runs on your own computer.
+- A live copy is at https://support-capacity-proposal.amelia-todd19.workers.dev. It also runs locally with the steps above.
 - No backend and no accounts.
 - No real sign-off process. Everything is labelled as a draft, and nothing is sent to anyone.
 - Drafts are stored only in this browser.
