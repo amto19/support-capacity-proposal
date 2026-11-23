@@ -1,0 +1,746 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height);
+  color: var(--color-text);
+  background: var(--color-background);
+}
+
+.page {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+}
+
+h1 {
+  font-size: var(--font-size-heading);
+  line-height: 1.2;
+  margin: 0 0 var(--space-2);
+}
+
+.draft-label {
+  display: inline-block;
+  margin: 0 0 var(--space-5);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+}
+
+/* Reserve room for the two-line sentence so swapping in the shorter
+   placeholder doesn't make everything below it jump. */
+.sentence {
+  max-width: var(--reading-width);
+  font-size: var(--font-size-lead);
+  min-height: calc(2 * var(--line-height) * var(--font-size-lead));
+  margin: 0 0 var(--space-6);
+}
+
+.sentence--placeholder {
+  color: var(--color-text-muted);
+}
+
+fieldset {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-4) var(--space-5) var(--space-5);
+  margin: 0;
+}
+
+legend {
+  font-weight: 600;
+  padding: 0 var(--space-2);
+}
+
+/* "Your plan" is an h2 for heading navigation, but keeps the legend's look. */
+.legend-heading {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+.unallocated {
+  margin: var(--space-5) 0 0;
+  font-weight: 600;
+}
+
+/* Hidden on screen but still read by screen readers. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* HoursField */
+.hours-field + .hours-field {
+  margin-top: var(--space-5);
+}
+
+.hours-field__label {
+  display: block;
+  font-weight: 600;
+}
+
+.hours-field__hint,
+.hours-field__note {
+  margin: 0;
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+}
+
+.hours-field__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-2);
+}
+
+.hours-field__slider {
+  flex: 1;
+  min-width: 0;
+  /* Colours the browser's own slider handle and filled track. */
+  accent-color: var(--color-accent);
+}
+
+.hours-field__number {
+  width: 5rem;
+  padding: var(--space-2);
+  font: inherit;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.hours-field__error {
+  margin: var(--space-2) 0 0;
+  font-size: var(--font-size-small);
+}
+
+.hours-field__note {
+  margin-top: var(--space-2);
+}
+
+/* Narrow (one column): "Your plan", then "What changes", then the reason box, so the bars come
+   straight after the fields. The gap is tightened so the Proposed bar fits on a 768 x 1024 screen.
+   Wide (two columns): the reason box goes back under the fields, joined to the "Your plan" box. */
+.plan-layout {
+  display: grid;
+  gap: var(--space-4);
+  align-items: start;
+}
+
+/* The reason box's own outline, matching "Your plan", for one-column layouts. */
+.plan-layout__reason {
+  margin-top: 0;
+  padding: var(--space-4) var(--space-5) var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+@media (min-width: 64rem) {
+  .plan-layout {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    /* The first row hugs "Your plan", so the reason box sits right under it. */
+    grid-template-rows: auto 1fr;
+    column-gap: var(--space-6);
+    row-gap: 0;
+  }
+
+  .plan-layout__plan {
+    grid-column: 1;
+    grid-row: 1;
+    border-bottom: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    padding-bottom: 0;
+  }
+
+  .plan-layout__changes {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  /* Continues the "Your plan" box: no top edge, so the two read as one box. */
+  .plan-layout__reason {
+    grid-column: 1;
+    grid-row: 2;
+    border-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
+
+h2 {
+  font-size: var(--font-size-section);
+  line-height: 1.3;
+  margin: 0 0 var(--space-2);
+}
+
+.section-intro {
+  margin: 0 0 var(--space-4);
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+}
+
+.page-section {
+  margin-top: var(--space-6);
+  max-width: var(--reading-width);
+}
+
+/* Bars */
+.bar {
+  margin-bottom: var(--space-5);
+}
+
+.bar__title {
+  font-size: var(--font-size-body);
+  margin: 0 0 var(--space-2);
+}
+
+.bar__strip {
+  display: flex;
+  height: var(--bar-height);
+}
+
+/* Widths are percentages of 160, so both bars share one scale.
+   Borders sit inside each piece (border-box) and never stretch the bar. */
+.bar__piece {
+  border-right: 2px solid var(--color-background);
+}
+
+/* Each piece and its label chip take their task's colour token.
+   Unallocated has no task, so it keeps no fill. */
+.bar__piece,
+.swatch {
+  --piece-colour: transparent;
+  background: var(--piece-colour);
+}
+
+[data-task='triage'] { --piece-colour: var(--task-triage); }
+[data-task='exceptions'] { --piece-colour: var(--task-exceptions); }
+[data-task='knowledge'] { --piece-colour: var(--task-knowledge); }
+[data-task='coaching'] { --piece-colour: var(--task-coaching); }
+[data-task='quality'] { --piece-colour: var(--task-quality); }
+
+/* Projected: a lighter version of the task's colour, always with the dashed outline. */
+.bar__piece[data-projected],
+.bar__piece[data-projected]:last-child,
+.swatch[data-projected] {
+  background: color-mix(in srgb, var(--piece-colour) var(--projected-mix), var(--color-background));
+  border: var(--border-projected);
+}
+
+.bar__piece:last-child {
+  border-right: 0;
+}
+
+.bar__labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  list-style: none;
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  font-size: var(--font-size-small);
+}
+
+.bar__label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+/* A flat colour chip, wider than tall and borderless, so it doesn't look like a checkbox. */
+.swatch {
+  display: inline-block;
+  flex: none;
+  width: 1.25rem;
+  height: 0.75rem;
+  border-radius: 2px;
+}
+
+.bar-key {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-5);
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+}
+
+.not-ready {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+/* Table */
+.changes-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.changes-table caption {
+  text-align: left;
+  font-weight: 600;
+  padding-bottom: var(--space-2);
+}
+
+.changes-table th,
+.changes-table td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--color-border-faint);
+  text-align: right;
+}
+
+.changes-table th:first-child {
+  text-align: left;
+  padding-left: 0;
+}
+
+.changes-table tbody th {
+  font-weight: normal;
+}
+
+.changes-table thead th {
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+  border-bottom-color: var(--color-border);
+}
+
+.changes-table tfoot th,
+.changes-table tfoot td {
+  font-weight: 600;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 0;
+}
+
+/* Source tags: solid = baseline, dashed = estimate, empty = no measured results. */
+.source-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.source-tag {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius);
+  font-size: var(--font-size-small);
+}
+
+.source-tag__kind {
+  font-weight: 600;
+  font-size: var(--font-size-body);
+}
+
+.source-tag--baseline {
+  background: var(--color-fill);
+  border: 1px solid var(--color-border);
+}
+
+.source-tag--estimate {
+  border: var(--border-projected);
+}
+
+.source-tag--measured {
+  border: 1px solid var(--color-border-faint);
+  color: var(--color-text-muted);
+}
+
+.source-tag--measured .source-tag__kind {
+  color: var(--color-text);
+}
+
+.unknowns-list {
+  margin: 0;
+  padding-left: var(--space-5);
+}
+
+.unknowns-list li + li {
+  margin-top: var(--space-1);
+}
+
+/* Callout: icon + words. The kind sets the outline and icon colour; text stays near-black. */
+.callout {
+  --callout-strong: var(--color-text-muted);
+  --callout-bg: var(--color-fill);
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-3) var(--space-4);
+  background: var(--callout-bg);
+  border: 1px solid var(--callout-strong);
+  border-left-width: 4px;
+  color: var(--color-text);
+}
+
+.callout--warning {
+  --callout-strong: var(--color-warning);
+  --callout-bg: var(--color-warning-bg);
+}
+
+.callout--error {
+  --callout-strong: var(--color-error);
+  --callout-bg: var(--color-error-bg);
+}
+
+.callout__icon {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.125rem;
+  color: var(--callout-strong);
+}
+
+.callout__title {
+  margin: 0 0 var(--space-1);
+  font-weight: 600;
+}
+
+.callout__text p {
+  margin: 0;
+}
+
+.callout__text p + p {
+  margin-top: var(--space-1);
+}
+
+.callout--small {
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-small);
+}
+
+.callout--small .callout__icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.plan-status {
+  margin-top: var(--space-5);
+}
+
+/* One focus style for every control, in the accent colour, so focus never looks like
+   the ochre warning. :focus-visible shows it for keyboard use, and always for text boxes. */
+:where(input, button, a, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Over-allocated bar: a solid line at the team's total, and a solid red bracket for the overflow.
+   Solid on purpose: dashed means projected. */
+.bar__track {
+  position: relative;
+}
+
+.bar__limit-label {
+  margin: 0 0 var(--space-1);
+  font-size: var(--font-size-small);
+  text-align: right;
+}
+
+/* Keeps the label's space when the plan fits, so the bar stays still as it crosses into conflict. */
+.bar__limit-label--reserved {
+  visibility: hidden;
+}
+
+.bar__limit {
+  position: absolute;
+  top: calc(-1 * var(--space-2));
+  bottom: calc(-1 * var(--space-2));
+  width: 2px;
+  margin-left: -1px;
+  background: var(--color-limit-line);
+}
+
+/* Only the hours past the 160 line: a red tint with a solid red outline over the pieces. */
+.bar__overflow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: var(--color-error-tint);
+  border: 2px solid var(--color-error);
+}
+
+/* A slanted white gap across a shortened overflow: the bar isn't to scale past here. */
+.bar__break {
+  position: absolute;
+  top: calc(-1 * var(--space-1));
+  bottom: calc(-1 * var(--space-1));
+  width: 0.625rem;
+  margin-left: -0.3125rem;
+  background: var(--color-background);
+  transform: skewX(-18deg);
+}
+
+.bar__over-label {
+  display: flex;
+  justify-content: flex-end;
+  white-space: nowrap;
+  align-items: center;
+  gap: var(--space-1);
+  margin: var(--space-1) 0 0;
+  font-size: var(--font-size-small);
+  font-weight: 600;
+  color: var(--color-error);
+}
+
+.bar__over-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Labels and hints for fields other than HoursField (the reason box). */
+.field-label {
+  display: block;
+  font-weight: 600;
+}
+
+.field-hint {
+  margin: 0;
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+}
+
+.text-box {
+  display: block;
+  width: 100%;
+  margin-top: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  font: inherit;
+  line-height: var(--line-height);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  resize: vertical;
+}
+
+/* Buttons: one primary per screen, in the accent colour (white on indigo is 8:1). Never disabled. */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.button {
+  padding: var(--space-2) var(--space-5);
+  font: inherit;
+  font-weight: 600;
+  border: 2px solid var(--color-accent);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.button--primary {
+  background: var(--color-accent);
+  color: var(--color-background);
+}
+
+.button--primary:hover {
+  background: color-mix(in srgb, var(--color-accent) 85%, black);
+  border-color: color-mix(in srgb, var(--color-accent) 85%, black);
+}
+
+.button--secondary {
+  background: var(--color-background);
+  color: var(--color-accent);
+}
+
+.button--secondary:hover {
+  background: color-mix(in srgb, var(--color-accent) 8%, var(--color-background));
+}
+
+.save-status {
+  margin-top: var(--space-3);
+  max-width: var(--reading-width);
+}
+
+.restored-note {
+  margin: 0 0 var(--space-5);
+  max-width: var(--reading-width);
+}
+
+/* Summary screen: the same page frame as the plan, so the left edges line up,
+   with its text, bars and table limited to a readable width, left-aligned. */
+.page--summary > * {
+  max-width: var(--summary-width);
+}
+
+.summary-section {
+  margin-top: var(--space-6);
+}
+
+.summary-section p {
+  margin: 0;
+}
+
+.summary-section .section-intro {
+  margin-bottom: var(--space-4);
+}
+
+/* The dashed-outline legend keeps its usual gap above the table, as on the plan screen. */
+.summary-section .bar-key {
+  margin-bottom: var(--space-5);
+}
+
+/* Keep the manager's own line breaks. */
+.rationale-text {
+  white-space: pre-wrap;
+}
+
+.muted {
+  color: var(--color-text-muted);
+}
+
+.provenance {
+  margin: var(--space-6) 0 0;
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+}
+
+
+/* The legend's "*": a link to the Estimate tag. The hit area is enlarged to 24 x 24px,
+   because a bare asterisk is too small to click or tap reliably. The asterisk sits at the left
+   of that area so it reads as "hours*", and the extra area extends into the empty space after it. */
+.footnote-link {
+  display: inline-block;
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+  line-height: 1.5rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.footnote-link:hover {
+  text-decoration: underline;
+}
+
+/* Loading placeholder: plain grey blocks roughly where the content appears.
+   A gentle pulse, switched off for people who ask their computer for reduced motion. */
+.loading-message {
+  margin: 0 0 var(--space-4);
+  color: var(--color-text-muted);
+}
+
+.placeholder {
+  background: var(--color-fill);
+  border-radius: var(--radius);
+  animation: placeholder-pulse 1.6s ease-in-out infinite;
+}
+
+.placeholder--sentence {
+  max-width: var(--reading-width);
+  height: 3.5rem;
+  margin-bottom: var(--space-6);
+}
+
+.placeholder--plan {
+  height: 28rem;
+}
+
+.placeholder--line {
+  width: 40%;
+  height: 1.5rem;
+  margin-bottom: var(--space-4);
+}
+
+.placeholder--bar {
+  width: 80%;
+  height: var(--bar-height);
+  margin-bottom: var(--space-6);
+}
+
+.placeholder--table {
+  height: 14rem;
+}
+
+@keyframes placeholder-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .placeholder {
+    animation: none;
+  }
+}
+
+/* A smaller button, for "Try again" inside a message. */
+.button--small {
+  margin-top: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--font-size-small);
+}
+
+/* Demo controls: a plain disclosure at the very bottom, for reviewers. */
+.demo-controls {
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border-faint);
+  max-width: var(--reading-width);
+  font-size: var(--font-size-small);
+}
+
+.demo-controls summary {
+  cursor: pointer;
+  font-weight: 600;
+  width: fit-content;
+}
+
+.demo-controls p {
+  margin: var(--space-2) 0;
+  color: var(--color-text-muted);
+}
+
+.demo-controls ul {
+  margin: 0;
+  padding-left: var(--space-5);
+}
+
+.demo-controls a {
+  color: var(--color-accent);
+}
+
+/* A small source tag under a table column name: just the kind, same outlines as the full tags. */
+.source-tag--compact {
+  display: flex;
+  width: fit-content;
+  margin: var(--space-1) 0 0 auto;
+  padding: 0 var(--space-2);
+  font-size: var(--font-size-small);
+}
+
+.source-tag--compact .source-tag__kind {
+  font-size: var(--font-size-small);
+  font-weight: 600;
+}
+
+.source-tag--compact.source-tag--estimate {
+  border-width: 1px;
+}

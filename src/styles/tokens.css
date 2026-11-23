@@ -1,0 +1,79 @@
+/* Shared design values. Everything else refers to these names,
+   so a change here changes it everywhere. */
+:root {
+  /* Type */
+  --font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-size-small: 0.875rem;
+  --font-size-body: 1rem;
+  --font-size-lead: 1.125rem;
+  --font-size-heading: 1.75rem;
+  --line-height: 1.5;
+
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+
+  --radius: 4px;
+
+  /* Neutral palette. Muted text is 7:1 on white; borders are 3.5:1 so controls stay visible. */
+  --color-background: #ffffff;
+  --color-text: #1a1a1a;
+  --color-text-muted: #545454;
+  --color-border: #8a8a8a;
+  --color-border-faint: #d0d0d0;
+  /* The one accent colour: only for things you can interact with (sliders now, buttons later).
+     A dusky indigo that sits with the task colours but is far darker than any of them.
+     8.0:1 on white, and white text on it is 8.0:1. */
+  --color-accent: #4a4c80;
+
+  /* Message colours. Used only for conflicts and errors, always with an icon and words.
+     One red for every error: invalid entries, the conflict message, and the overflow and "over" label on the bar.
+     Red is 6.7:1 on white and 5.9:1 on its pale background; dark text on the pale background is 15:1.
+     Checked against the bar colours under simulated colour blindness: 36+ from Exceptions, 52+ from Coaching. */
+  --color-error: #b3201a;
+  --color-error-bg: #fdecea;
+  /* Over the bar pieces past the 160 line. Translucent so the pieces still show through. */
+  --color-error-tint: color-mix(in srgb, var(--color-error) 22%, transparent);
+  /* Ochre warning: not used on the plan screen since the conflict became an error. Kept for later stages. */
+  --color-warning: #8a5a12;
+  --color-warning-bg: #fbf3e0;
+
+  /* The solid line marking the team's 160 hours on the Proposed bar. Shown only in a conflict; never moves. */
+  --color-limit-line: var(--color-text);
+
+  /* Neutral fill, used by the Baseline source tag. */
+  --color-fill: #e6e6e6;
+
+  /* One muted colour per task, the same in both bars and the label chips.
+     Deliberately not blue (the accent means clickable) and not red, amber or green
+     (they suggest error, warning, success). Lightness alternates light / darker in
+     task order, so neighbours differ even without colour vision.
+     Dark text on each is at least 5.8:1. Neighbours were checked under simulated
+     protanopia, deuteranopia and tritanopia and stay clearly distinct (Delta E 21+). */
+  --task-triage: #d3cbe8;     /* lavender, light */
+  --task-exceptions: #b99a80; /* clay, darker */
+  --task-knowledge: #b5d3cf;  /* sea-glass, light */
+  --task-coaching: #a98ca7;   /* plum, darker */
+  --task-quality: #e0d4b9;    /* sand, light */
+
+  /* Added (projected) hours: the task's colour mixed half with white, plus the dashed outline. */
+  --projected-mix: 50%;
+  /* Dashed outline = projected. Used by bar pieces, swatches and the Estimate tag. */
+  --border-projected: 2px dashed var(--color-text-muted);
+
+  --font-size-section: 1.25rem;
+
+  --bar-height: 2.25rem;
+
+  --page-width: 72rem;
+  /* Long lines of prose are hard to read, so text blocks stop here. */
+  --reading-width: 42rem;
+  /* The summary's text, bars and table (about 720px), left-aligned. */
+  --summary-width: 45rem;
+  /* The two-column breakpoint (64rem, about 1024px) lives in base.css:
+     CSS can't use variables inside media queries. */
+}
